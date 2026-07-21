@@ -1,0 +1,1 @@
+# predictive-maintenance-6g-manufacturing
