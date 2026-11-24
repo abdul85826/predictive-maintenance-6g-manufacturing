@@ -1,14 +1,14 @@
 # Predictive Maintenance and Anomaly Detection in 6G-Integrated Smart Manufacturing Systems
 
-**Author:** Unified Mentor & Thales Group Internship Research Team  
-**Domain:** Smart Manufacturing, Industrial IoT (IIoT), 6G Telemetry, Anomaly Detection & Predictive Analytics  
-**Date:** July 2026  
+**Author:** Unified Mentor & Thales Group Internship Research Team
+**Domain:** Smart Manufacturing, Industrial IoT (IIoT), 6G Telemetry, Anomaly Detection & Predictive Analytics
+**Date:** July 2026
 
 ---
 
 ## Abstract
 
-In modern Industry 4.0 and emerging Industry 5.0 smart factories, unscheduled machine downtime represents one of the most critical causes of financial loss, high operational expense, and supply chain disruptions. Traditional reactive maintenance repairs equipment after failure, while pre-scheduled preventive maintenance often replaces functional parts prematurely. 
+In modern Industry 4.0 and emerging Industry 5.0 smart factories, unscheduled machine downtime represents one of the most critical causes of financial loss, high operational expense, and supply chain disruptions. Traditional reactive maintenance repairs equipment after failure, while pre-scheduled preventive maintenance often replaces functional parts prematurely.
 
 This research paper presents a continuous, real-time **Predictive Maintenance and Anomaly Detection Framework** leveraging 6G ultra-reliable low-latency communication (URLLC) telemetry and machine learning models (Isolation Forest). By tracking multidimensional sensor signals (temperature, vibration frequency, power consumption) alongside 6G network QoS metrics (latency, packet loss), our system learns normal operational baselines per machine mode and detects subtle multivariate anomalies days before equipment breakdown occurs. Empirical validation demonstrates an **Early Warning Lead Time of 18.5 hours** and an estimated **Downtime Prevention Index of 96.5%**.
 

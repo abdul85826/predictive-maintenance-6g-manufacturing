@@ -1,8 +1,8 @@
 # Executive Summary: 6G Smart Manufacturing Predictive Maintenance
 
-**Target Audience:** Government Stakeholders, Enterprise Manufacturing Executives, Industry 4.0/5.0 Strategy Boards  
-**Project:** Predictive Maintenance & Anomaly Detection in 6G-Integrated Smart Manufacturing Systems  
-**Organization:** Unified Mentor / Thales Group Initiative  
+**Target Audience:** Government Stakeholders, Enterprise Manufacturing Executives, Industry 4.0/5.0 Strategy Boards
+**Project:** Predictive Maintenance & Anomaly Detection in 6G-Integrated Smart Manufacturing Systems
+**Organization:** Unified Mentor / Thales Group Initiative
 
 ---
 
@@ -22,7 +22,7 @@ This project delivers a **Next-Generation Predictive Maintenance Platform** powe
 ## Key Executive Highlights
 
 ### 1. Fundamental Difference from Legacy Systems
-Traditional manufacturing monitoring relies on static upper/lower control limits (e.g., "Alert if Temperature > 80°C"). These systems fail because high temperatures may be perfectly normal during High-Load operation, but abnormal under Eco-Mode. 
+Traditional manufacturing monitoring relies on static upper/lower control limits (e.g., "Alert if Temperature > 80°C"). These systems fail because high temperatures may be perfectly normal during High-Load operation, but abnormal under Eco-Mode.
 
 Our system models **multivariate contextual relationships** (vibration frequency, electrical power draw, thermal drift, and 6G packet loss) simultaneously, eliminating false alarms while capturing subtle multi-sensor anomalies.
 
