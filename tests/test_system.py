@@ -39,7 +39,7 @@ class TestEnvironmentAndDependencies(unittest.TestCase):
 
 
 class TestBrandingAssets(unittest.TestCase):
-    """Verifies existence and non-emptiness of all vector SVG branding assets."""
+    """Verifies existence, clean XML structure, and Base64 rendering of all vector SVG branding assets."""
 
     def test_svg_assets_exist(self):
         required_assets = [
@@ -55,6 +55,19 @@ class TestBrandingAssets(unittest.TestCase):
             with open(path, "r", encoding="utf-8") as f:
                 content = f.read()
                 self.assertIn("<svg", content, f"Asset does not contain valid SVG tag: {asset}")
+                # Ensure no raw implementation comments leak
+                self.assertNotIn("<!-- Connected Node Topology -->", content)
+                self.assertNotIn("<!-- Predictive Pulse Waveform -->", content)
+                self.assertNotIn("<!-- Nodes -->", content)
+
+    def test_svg_base64_encoding_helper(self):
+        from app import get_svg_base64_data_uri, LOGO_PATH, SYMBOL_PATH
+        logo_uri = get_svg_base64_data_uri(LOGO_PATH)
+        self.assertTrue(logo_uri.startswith("data:image/svg+xml;base64,"))
+        symbol_uri = get_svg_base64_data_uri(SYMBOL_PATH)
+        self.assertTrue(symbol_uri.startswith("data:image/svg+xml;base64,"))
+        missing_uri = get_svg_base64_data_uri("non_existent.svg")
+        self.assertEqual(missing_uri, "")
 
 
 class TestDatasetSchemaAndIntegrity(unittest.TestCase):

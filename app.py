@@ -8,7 +8,9 @@ Internship Organization: Unified Mentor Pvt. Ltd.
 Framework: Isolation Forest Unsupervised Anomaly Detection & 6G URLLC Telemetry
 """
 
+import base64
 import os
+from pathlib import Path
 import sys
 import pandas as pd
 import plotly.express as px
@@ -19,8 +21,10 @@ import streamlit.runtime
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROCESSED_DATA_PATH = os.path.join(BASE_DIR, "processed_dataset.csv")
 RAW_DATA_PATH = os.path.join(BASE_DIR, "dataset.csv")
-FAVICON_PATH = os.path.join(BASE_DIR, "assets", "branding", "favicon.svg")
-LOGO_PATH = os.path.join(BASE_DIR, "assets", "branding", "project_logo.svg")
+BRANDING_DIR = os.path.join(BASE_DIR, "assets", "branding")
+FAVICON_PATH = os.path.join(BRANDING_DIR, "favicon.svg")
+LOGO_PATH = os.path.join(BRANDING_DIR, "project_logo.svg")
+SYMBOL_PATH = os.path.join(BRANDING_DIR, "project_symbol.svg")
 
 # Plotly Natural Industrial Global Layout Theme
 INDUSTRIAL_LAYOUT_DEFAULTS = dict(
@@ -49,6 +53,62 @@ INDUSTRIAL_LAYOUT_DEFAULTS = dict(
         borderwidth=1,
     ),
 )
+
+
+def get_svg_base64_data_uri(path_str: str) -> str:
+    """
+    Safely reads an SVG file and encodes it as a Base64 data URI string.
+    Returns empty string if the file is missing or unreadable.
+    """
+    try:
+        p = Path(path_str)
+        if not p.is_file():
+            return ""
+        svg_bytes = p.read_bytes()
+        encoded = base64.b64encode(svg_bytes).decode("utf-8")
+        return f"data:image/svg+xml;base64,{encoded}"
+    except Exception:
+        return ""
+
+
+def render_svg_logo(path_str: str, width: int = 230, sidebar: bool = True, alt: str = "Predictive Intelligence Logo"):
+    """
+    Renders an SVG brand asset as an HTML <img> element via Base64 data URI.
+    Ensures images are responsive, preserves aspect ratios, and prevents
+    Streamlit's markdown parser from interpreting raw SVG markup as code blocks.
+    """
+    uri = get_svg_base64_data_uri(path_str)
+    if not uri:
+        fallback_html = """
+        <div style="padding: 6px 0; margin-bottom: 16px;">
+            <div style="font-size: 1.15rem; font-weight: 800; color: #176B62; letter-spacing: -0.3px;">
+                PREDICTIVE <span style="color: #202A2E;">INTELLIGENCE</span>
+            </div>
+            <div style="font-size: 0.72rem; font-weight: 600; color: #66747A; letter-spacing: 1.2px;">
+                6G SMART MANUFACTURING
+            </div>
+        </div>
+        """
+        if sidebar:
+            st.sidebar.markdown(fallback_html, unsafe_allow_html=True)
+        else:
+            st.markdown(fallback_html, unsafe_allow_html=True)
+        return
+
+    img_html = f"""
+    <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 16px; padding: 2px 0;">
+        <img 
+            src="{uri}" 
+            width="{width}" 
+            style="max-width: 100%; height: auto; display: block; border: none;" 
+            alt="{alt}" 
+        />
+    </div>
+    """
+    if sidebar:
+        st.sidebar.markdown(img_html, unsafe_allow_html=True)
+    else:
+        st.markdown(img_html, unsafe_allow_html=True)
 
 
 @st.cache_data
@@ -251,14 +311,8 @@ def run_dashboard():
     # SIDEBAR NAVIGATION & FILTER CONTROLS
     # ==============================================================================
 
-    # Render original local SVG brand logo
-    if os.path.exists(LOGO_PATH):
-        with open(LOGO_PATH, "r", encoding="utf-8") as f:
-            svg_content = f.read()
-        st.sidebar.markdown(f'<div style="margin-bottom: 20px; padding: 0 4px;">{svg_content}</div>', unsafe_allow_html=True)
-    else:
-        st.sidebar.title("PREDICTIVE INTELLIGENCE")
-        st.sidebar.caption("6G Smart Manufacturing Analytics")
+    # Render original local SVG brand logo via Base64 data URI
+    render_svg_logo(LOGO_PATH, width=230, sidebar=True, alt="Predictive Intelligence Logo")
 
     st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #E2E7E4; margin: 12px 0 20px 0;'>", unsafe_allow_html=True)
 
@@ -328,13 +382,17 @@ def run_dashboard():
         st.rerun()
 
     st.sidebar.markdown("<hr style='border: none; border-top: 1px solid #E2E7E4; margin: 24px 0 16px 0;'>", unsafe_allow_html=True)
-    st.sidebar.markdown("""
-    <div style="font-size: 0.8rem; color: #66747A; line-height: 1.5;">
-        <strong>Academic Verification:</strong><br/>
-        B.Tech CSE Internship Project<br/>
+    symbol_data_uri = get_svg_base64_data_uri(SYMBOL_PATH)
+    symbol_side_icon = f'<img src="{symbol_data_uri}" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-right: 6px;" alt="Symbol" />' if symbol_data_uri else ""
+    st.sidebar.markdown(f"""
+    <div style="font-size: 0.8rem; color: #66747A; line-height: 1.5; padding: 12px; background-color: #F8FAF9; border: 1px solid #E2E7E4; border-radius: 6px;">
+        <div style="font-weight: 700; color: #176B62; margin-bottom: 6px; display: flex; align-items: center;">
+            {symbol_side_icon}<span>Academic Verification</span>
+        </div>
+        B.Tech CSE Internship Project (2026)<br/>
         B.S. Abdur Rahman Crescent Institute of Science and Technology<br/>
-        Candidate: Syed Abdul Rehman (230071601233)<br/>
-        Organization: Unified Mentor Pvt. Ltd.
+        <strong>Candidate:</strong> Syed Abdul Rehman (230071601233)<br/>
+        <strong>Organization:</strong> Unified Mentor Pvt. Ltd.
     </div>
     """, unsafe_allow_html=True)
 
@@ -370,22 +428,27 @@ def run_dashboard():
     total_telemetry_count = len(filtered_df)
     monitored_machines_count = filtered_df["Machine_ID"].nunique()
 
+    symbol_header_tag = f'<img src="{symbol_data_uri}" width="48" height="48" style="display: block; flex-shrink: 0; margin-top: 2px;" alt="Predictive Intelligence Symbol" />' if symbol_data_uri else ""
+
     st.markdown(f"""
     <div class="header-box">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
-            <div>
-                <h1 class="header-title">Predictive Maintenance & Anomaly Detection</h1>
-                <div class="header-caption">
-                    6G-Enabled Smart Manufacturing Intelligence Console • Unsupervised Condition Monitoring System
-                </div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                    <span class="badge-status badge-info">Fleet Monitored: {monitored_machines_count} Assets</span>
-                    <span class="badge-status badge-low">Telemetry: Synchronized</span>
-                    <span class="badge-status {'badge-high' if total_telemetry_count == 0 else 'badge-info'}">Active Records: {total_telemetry_count:,}</span>
-                    <span class="badge-status badge-info">Algorithm: Isolation Forest (150 iTrees)</span>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+                {symbol_header_tag}
+                <div>
+                    <h1 class="header-title">Predictive Maintenance & Anomaly Detection</h1>
+                    <div class="header-caption">
+                        6G-Enabled Smart Manufacturing Intelligence Console • Unsupervised Condition Monitoring System
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <span class="badge-status badge-info">Fleet Monitored: {monitored_machines_count} Assets</span>
+                        <span class="badge-status badge-low">Telemetry: Synchronized</span>
+                        <span class="badge-status {'badge-high' if total_telemetry_count == 0 else 'badge-info'}">Active Records: {total_telemetry_count:,}</span>
+                        <span class="badge-status badge-info">Algorithm: Isolation Forest (150 iTrees)</span>
+                    </div>
                 </div>
             </div>
-            <div style="text-align: right; font-size: 0.8rem; color: #66747A;">
+            <div style="text-align: right; font-size: 0.8rem; color: #66747A; align-self: center;">
                 <strong>Simulation Window:</strong> June 1, 2026 – June 30, 2026<br/>
                 <strong>Sampling Interval:</strong> 40 Minutes (36 Readings/Day)<br/>
                 <strong>QoS Standard:</strong> 6G URLLC Sub-ms Simulation
@@ -715,11 +778,14 @@ def run_dashboard():
 
     st.markdown('<div class="section-title">Methodology & Academic Data Disclosure</div>', unsafe_allow_html=True)
 
-    st.markdown(r"""
-    <div class="industrial-card" style="font-size: 0.88rem; color: #202A2E; line-height: 1.6;">
-        <div style="font-weight: 700; color: #176B62; margin-bottom: 8px;">
-            ENGINEERING SPECIFICATION & RESEARCH FRAMEWORK
-        </div>
+    symbol_method_tag = f'<img src="{symbol_data_uri}" width="20" height="20" style="display: inline-block; vertical-align: middle; margin-right: 8px;" alt="Symbol" />' if symbol_data_uri else ""
+
+    st.markdown(
+        f'<div class="industrial-card" style="font-size: 0.88rem; color: #202A2E; line-height: 1.6;">'
+        f'<div style="display: flex; align-items: center; font-weight: 700; color: #176B62; margin-bottom: 8px;">'
+        f'{symbol_method_tag}<span>ENGINEERING SPECIFICATION & RESEARCH FRAMEWORK</span>'
+        f'</div>'
+        + r"""
         <p>
             <strong>1. Unsupervised Anomaly Detection Principle:</strong> 
             In smart manufacturing, machine failures are rare and lack extensive historical training labels. 
@@ -753,10 +819,4 @@ def run_dashboard():
 
 
 if __name__ == "__main__":
-    if streamlit.runtime.exists():
-        run_dashboard()
-    else:
-        # User executed python app.py directly: automatically launch via Streamlit CLI
-        from streamlit.web import cli as stcli
-        sys.argv = ["streamlit", "run", os.path.abspath(__file__)] + sys.argv[1:]
-        sys.exit(stcli.main())
+    run_dashboard()

@@ -1,20 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 90" width="100%" height="100%">
-  <!-- Symbol Icon at (10, 10) -->
-  <g transform="translate(10, 5) scale(0.8)">
-    <!-- Base Circular Ring -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 385 75" width="100%" height="100%">
+  <g transform="translate(6, 2) scale(0.72)">
     <circle cx="50" cy="50" r="40" fill="none" stroke="#176B62" stroke-width="4" stroke-opacity="0.2" />
-    <!-- 6 Precision Industrial Gear Teeth -->
     <path d="M 46 8 L 54 8 L 53 14 L 47 14 Z" fill="#176B62" />
     <path d="M 46 86 L 54 86 L 53 92 L 47 92 Z" fill="#176B62" transform="rotate(180 50 50)" />
     <path d="M 46 8 L 54 8 L 53 14 L 47 14 Z" fill="#176B62" transform="rotate(60 50 50)" />
     <path d="M 46 8 L 54 8 L 53 14 L 47 14 Z" fill="#176B62" transform="rotate(120 50 50)" />
     <path d="M 46 8 L 54 8 L 53 14 L 47 14 Z" fill="#176B62" transform="rotate(240 50 50)" />
     <path d="M 46 8 L 54 8 L 53 14 L 47 14 Z" fill="#176B62" transform="rotate(300 50 50)" />
-    <!-- Segmented Concentric Arc -->
     <path d="M 22 50 A 28 28 0 0 1 78 50" fill="none" stroke="#176B62" stroke-width="3" />
     <path d="M 78 50 A 28 28 0 0 1 22 50" fill="none" stroke="#477D83" stroke-width="3" stroke-dasharray="5 3" />
-
-    <!-- Connected Node Topology -->
     <g stroke="#477D83" stroke-width="2.5" stroke-linecap="round">
       <line x1="28" y1="50" x2="48" y2="34" />
       <line x1="28" y1="50" x2="48" y2="66" />
@@ -22,32 +16,17 @@
       <line x1="48" y1="66" x2="72" y2="50" />
       <line x1="48" y1="34" x2="48" y2="66" stroke-dasharray="2 3" />
     </g>
-
-    <!-- Predictive Pulse Waveform -->
-    <path d="M 20 50 L 34 50 L 40 38 L 48 64 L 56 32 L 64 54 L 70 50 L 80 50" 
-          fill="none" stroke="#C58A32" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
-
-    <!-- Nodes -->
+    <path d="M 20 50 L 34 50 L 40 38 L 48 64 L 56 32 L 64 54 L 70 50 L 80 50" fill="none" stroke="#C58A32" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
     <circle cx="28" cy="50" r="4.5" fill="#176B62" />
     <circle cx="48" cy="34" r="4.5" fill="#176B62" />
     <circle cx="48" cy="66" r="4.5" fill="#176B62" />
     <circle cx="72" cy="50" r="5" fill="#39845A" />
     <circle cx="56" cy="32" r="2.5" fill="#C58A32" />
   </g>
-
-  <!-- Typography: Product Brand Name -->
-  <text x="100" y="44" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="22" font-weight="800" fill="#202A2E" letter-spacing="-0.3">
+  <text x="88" y="38" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="19" font-weight="800" fill="#202A2E" letter-spacing="-0.3">
     PREDICTIVE <tspan fill="#176B62">INTELLIGENCE</tspan>
   </text>
-  
-  <!-- Subtitle: Engineering Domain Label -->
-  <text x="100" y="64" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="10.5" font-weight="600" fill="#66747A" letter-spacing="1.8">
+  <text x="88" y="56" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="9.5" font-weight="600" fill="#66747A" letter-spacing="1.4">
     6G SMART MANUFACTURING ANALYTICS
-  </text>
-
-  <!-- Status / Integrity Pill Indicator -->
-  <rect x="365" y="30" width="56" height="18" rx="4" fill="#E2E7E4" />
-  <text x="393" y="42" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="8.5" font-weight="700" fill="#176B62" text-anchor="middle" letter-spacing="0.5">
-    ACTIVE
   </text>
 </svg>
